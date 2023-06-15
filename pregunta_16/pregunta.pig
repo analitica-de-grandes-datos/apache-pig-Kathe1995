@@ -1,6 +1,4 @@
-lines = LOAD 'data.csv' USING PigStorage(',');
-
-a= FOREACH lines GENERATE $1,$4;
-b= FILTER a BY $0 MATCHES '.*^[kK].*' OR $1 == 'blue';
-
-STORE b INTO 'output' USING PigStorage(',');
+A = LOAD './data.csv' using PigStorage(',') AS (id:int,  name:chararray, lastname:chararray,   date:chararray,  color:chararray, other:int);
+B = FILTER A BY (name matches 'K.*') or (color matches 'blue');
+C = FOREACH B GENERATE name, color;
+STORE C INTO 'output/' using PigStorage(',');
