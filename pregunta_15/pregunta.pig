@@ -19,7 +19,7 @@ evaluación, pig sera eejcutado ejecutado en modo local:
 $ pig -x local -f pregunta.pig
 
 */
-data = LOAD 'data.csv' USING PigStorage(',')
+data_table = LOAD 'data.csv' USING PigStorage(',')
     AS (
         Id:int,
         firstname:chararray,
@@ -29,7 +29,7 @@ data = LOAD 'data.csv' USING PigStorage(',')
         Cantidad:int
     );
 
-specific_columns = FOREACH data GENERATE firstname, color;
+specific_columns = FOREACH data_table GENERATE firstname, color;
 filter_rows = FILTER specific_columns BY color == 'blue' AND STARTSWITH(firstname,'Z');
 format_output = FOREACH filter_rows GENERATE CONCAT(firstname,' ',color);
 STORE format_output INTO 'output' USING PigStorage(',');
